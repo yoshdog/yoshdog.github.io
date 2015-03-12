@@ -7,7 +7,7 @@ baseurl: ""
 url: "https://yoshdog.github.io"
 twitter_username: ToanJuan
 github_username:  yoshdog
-facebook_username: yoshdog07 
+facebook_username: yoshi07
 
 # Build settings
 markdown: kramdown
