@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Knowing when to use testing doubles"
+author: Toan Nguyen
 modified: 2014-08-16 20:24:31 +0100
 tags: [testing, rspec, doubles, tdd, london style, mocks]
 image:

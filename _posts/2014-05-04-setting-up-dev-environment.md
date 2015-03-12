@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Setting up my Development Environment"
+author: Toan Nguyen
 modified: 2014-05-04 14:21:39 +0100
 tags: [Setup, Development]
 image: 
