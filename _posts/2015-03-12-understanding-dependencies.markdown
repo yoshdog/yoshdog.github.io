@@ -49,7 +49,7 @@ We see that game knows the name of the Player class as well name of the message 
 We know that to write Object Oriented programs there needs to be some coupling between objects. We also know that having tightly coupled objects is generally a bad thing as it affects the ability of the application to change. So how do we determine how tightly coupled our design is and how do we go about improving it?
 
 [Jim Weirich] gave a talk about *The Grand Unified Theory* where he talks about a book called [What Every Programmer Should Know About Object-Oriented Design] by Meilir Page-Jones.
-In the book, Meilir Page-Jones introduces a new metric, [Connascence] to measure the complexity of dependencies between two objects. It categorises the type of dependencies as well as their strength of connascence. The higher the strength of connascence the more difficult and costly it is to change the objects in the relationship.
+In the book, Meilir Page-Jones introduces a new metric, [Connascence] to measure the complexity of dependencies between objects. It categorises the type of dependencies and their strength of connascence. The higher the strength of connascence the more difficult and costly it is to make future changes. 
 
 Below are the types of Connascence ranging from weak (good) to strong (bad):
 
@@ -79,7 +79,7 @@ end
 
 Looking at our previous example, we see that Game knows the name of the Player class as well as the name of the message it needs to send. This relationship can be classified as a **Connascence of Identity (CoI)** and is the strongest type of dependency.
 
-We can refactor to lessen the strength of the dependency by using **Dependency Injection**.
+We can refactor to a weaker type of connascence by using **Dependency Injection**.
 
 {% highlight ruby %}
 class Game
@@ -95,9 +95,9 @@ end
 
 Now game is initialized with a player object and a reference is saved in a @player instance variable. Whenever we want to know the name, we just send a name message to the saved reference of the player object. 
 
-Now the only dependency to player is just the name of the message game needs to send it. This relationship is classified as a **Connascence of Name** and is the weakest type of dependency. As a result, game is now loosely coupled to player. This type of dependency is also called a dependency on **Abstraction**, in that game only cares if the object has a public interface which responds to name. This falls in line with the advice given in Sandi's Book, in that an object should depend on an abstraction rather than something concrete.
+The only dependency to player is the knowledge of the name of the message that game needs to send it. This relationship is classified as a **Connascence of Name** and is the weakest type of dependency. As a result, game is now loosely coupled to player. This type of dependency is also called a dependency on **Abstraction**, in that game only cares if an object has a public interface which responds to name. This falls in line with the advice given in Sandi's Book, where she advises that an object should depend on an abstraction rather than something concrete.
 
-Although this is just a single refactoring pattern, you can view some more in the talk by [Jim Weirich].
+Although this is just a single refactoring pattern, there are more pointed out in the talk by [Jim Weirich].
 
 # Direction of Dependencies
 
@@ -124,7 +124,7 @@ class Game
 end
 {% endhighlight %}
 
-When a player is created it will have a grid. Whenever we wanted to access a players grid we just send a grid message to the player, as follows:
+When a player is created it will have a grid. Whenever we wanted to access a players grid we just send a grid message on the player. For example: 
 
 {% highlight ruby %}
 bob = Player.new(Grid.new)
@@ -141,7 +141,7 @@ Sebastian quickly stopped me and asked:
 
 I said: Game, Grid, Player and Ship as that is what the actual game physically had. A Game has two players and each player has a grid.
 
-After some discussion it became obvious that we could just create our Battleships game with just two Grids and a Game object to hold them in. With that in mind the updated design was as follows:
+After some discussion it became obvious that we could just create our Battleships game with just two Grids and a Game object to hold them in. Now our domain looks like:
 
 {% highlight ruby %}
 class Grid
@@ -158,7 +158,7 @@ class Game
 end
 {% endhighlight %}
 
-In this design we made Grid our absolute dependency of our Game. The game of battleships cannot be played if it didn't have any grids. With this design player has become just a detail. It is not a central component of our application and it can be any abstract object.
+In this design we made Grid our absolute dependency of our Game. The game of battleships cannot be played if it didn't have any grids and is a central component. With this design player has become just a detail. It is not a core component of our application and can be any abstract object.
 
 For example we can represent player as a Symbol:
 
@@ -227,13 +227,15 @@ end
 
 We see that Player has a dependency to grid. Because grid is unstable and has other dependencies, choosing to depend on it means we will frequently have to check if our player class is affected by the frequent changes to grid.
 
-When we reverse the dependency direction, our Grid class is now depending on an abstraction of a player. The player also is least likely to change and has no dependencies. This design makes our application easier to work with and maintain.
+When we reverse the dependency direction, our Grid class is now depending on an abstraction of a player. The player also is least likely to change and has no dependencies. This design makes our application easier to work with and extend.
+
+It is important to map out and understand the dependencies within our domain model before we start programming. The direction of the dependencies play a big part in how our application responds to change in the future. If the direction is incorrect it comes increasily difficult to make any future changes as any small will affect our entire application. So it pays to spend a little time at the beginning mapping out the dependencies, their complexitities and direction.
 
 # TL;DR
 
-When designing Object Oriented applications which are easy to change and maintain, we should identify dependencies between objects and lower their complexities. [Connascence] is a metric which measures how complex a dependency is. The weaker the type of connascence the more loosely coupled the dependency is. Injecting dependencies will lower the strength of connascence between objects.
+When designing Object Oriented applications which are easy to change and maintain, we should identify dependencies between objects and aim to lower their complexities. [Connascence] is a metric which measures how complex a dependency is. The weaker the type of connascence the more loosely coupled dependency between objects. Injecting dependencies weaken the type connascence between objects. 
 
-We should only depend on classes which are core to our domain. All other non-critical details should be abstracted away.
+We should identify and **only** depend on classes which are core to our domain. All other non-critical details should be abstracted away.
 
 The direction of dependency plays an important part in our design. We should depend on objects which are less likely to change and have few dependencies.
 
