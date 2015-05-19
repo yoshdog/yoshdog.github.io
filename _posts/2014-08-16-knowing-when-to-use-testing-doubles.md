@@ -11,7 +11,7 @@ image:
 comments: true
 share: true
 ---
-When I was first learning the London School of Test Driven Development I had no clue what the real purpose of testing doubles and mocks were. All I knew was that if I wanted to write my tests in isolation I had to use a testing double. This incorrect understanding led me to write test where I mocked everything but the method I was testing for. Confused at why all my tests seemed so complicated, I asked my friend look at my tests and offer me some advice. The email reply he sent back was, just watch this video. This was a light bulb moment for me and testing with doubles and mocks started making sense.
+When I was first learning the London School of Test Driven Development I had no clue what the real purpose of testing doubles and mocks were. All I knew was that if I wanted to write my tests in isolation I had to use a testing double. This incorrect understanding led me to write test where I mocked everything but the method I was testing for. Confused at why all my tests seemed so complicated, I asked my friend, [Phil](https://twitter.com/philiphagen) to look at my tests and offer me some advice. The email reply he sent back was, just watch this video. This was a light bulb moment for me and testing with doubles and mocks started making sense.
 
 [The Magic Tricks of Testing by Sandi Metz](https://www.youtube.com/watch?v=URSWYvyc42M)
 
